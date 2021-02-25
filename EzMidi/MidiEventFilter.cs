@@ -11,7 +11,6 @@ namespace EzMidi {
     /// </summary>
     public class MidiEventFilter {
         #region fields
-        private MidiListener.OnMidiEvent callback;
 
         /// <summary>
         /// Set of accepted command codes
@@ -33,8 +32,7 @@ namespace EzMidi {
         /// Creates a new <see cref="MidiEventFilter"/> instance with no filter options
         /// </summary>
         /// <param name="callback"></param>
-        public MidiEventFilter(MidiListener.OnMidiEvent callback) {
-            this.callback = callback;
+        public MidiEventFilter() {
             AcceptedCommandCodes = new HashSet<MidiCommandCode>();
             AcceptedControlValues = new HashSet<byte>();
             AcceptedMidiChannels = 0;
