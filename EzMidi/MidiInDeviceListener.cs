@@ -54,6 +54,8 @@ namespace EzMidi {
         public void StopListening() {
             if (input != null) {
                 input.Stop();
+                input.Close();
+                input.Dispose();
             }
         }
 
