@@ -13,7 +13,7 @@ Only receiving MIDI input is included. Sending MIDI events might be included in 
 #### Install package from Nuget
 
 ```
-Install-Package EzMidi -Version 1.0.2
+Install-Package EzMidi -Version 1.0.3
 ```
 
 #### Setup callback

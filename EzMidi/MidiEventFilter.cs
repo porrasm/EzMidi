@@ -63,7 +63,7 @@ namespace EzMidi {
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public MidiEventFilter AllowCommandCode(MidiCommandCode c) {
+        public MidiEventFilter AcceptCommandCode(MidiCommandCode c) {
             AcceptedCommandCodes.Add(c);
             return this;
         }

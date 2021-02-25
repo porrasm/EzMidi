@@ -106,7 +106,7 @@
             Bitfield of accepted MIDI channels
             </summary>
         </member>
-        <member name="M:EzMidi.MidiEventFilter.#ctor(EzMidi.MidiListener.OnMidiEvent)">
+        <member name="M:EzMidi.MidiEventFilter.#ctor">
             <summary>
             Creates a new <see cref="T:EzMidi.MidiEventFilter"/> instance with no filter options
             </summary>
@@ -119,7 +119,7 @@
             <param name="e"></param>
             <returns></returns>
         </member>
-        <member name="M:EzMidi.MidiEventFilter.AllowCommandCode(NAudio.Midi.MidiCommandCode)">
+        <member name="M:EzMidi.MidiEventFilter.AcceptCommandCode(NAudio.Midi.MidiCommandCode)">
             <summary>
             Adds a new <see cref="T:NAudio.Midi.MidiCommandCode"/> filter
             </summary>
