@@ -25,9 +25,14 @@ namespace EzMidi {
         private static int runIndex;
 
         /// <summary>
-        /// The MIDI event callback
+        /// The MIDI event callback. Different delegate from the one that you can give as a parameter to <see cref="StartListening(MidiListenerSettings, OnMidiEvent)"/>
         /// </summary>
         public static OnMidiEvent MidiEventCallback { get; set; }
+
+        /// <summary>
+        /// Alternate callback which can be given directly as a parameter.
+        /// </summary>
+        private static OnMidiEvent quickSetupCallback;
         #endregion
 
         static MidiListener() {
@@ -38,12 +43,16 @@ namespace EzMidi {
         /// <summary>
         /// Starts listening MIDI input on all of the devices. If <see cref="IsListening"/> is true, this does nothing.
         /// </summary>
-        public static void StartListening(MidiListenerSettings settings) {
+        /// <param name="settings">The settings to use</param>
+        /// <param name="callback">The callback to use</param>
+        public static void StartListening(MidiListenerSettings settings, OnMidiEvent callback = null) {
             if (IsListening) {
                 return;
             }
             IsListening = true;
             MidiListener.settings = settings;
+
+            quickSetupCallback = callback;
 
             UpdateLoop(++runIndex);
 
@@ -79,7 +88,10 @@ namespace EzMidi {
             }
         }
 
-        private static void UpdateAllDevices() {
+        /// <summary>
+        /// Reloads all MIDI devices based on the given filter settings 
+        /// </summary>
+        public static void UpdateAllDevices() {
             foreach (MidiInDeviceListener device in devicesToListen) {
                 device.StopListening();
             }
@@ -95,9 +107,10 @@ namespace EzMidi {
         private static void OnMidiEventHandler(MidiEvent e) {
             try {
                 Console.WriteLine(e.ToPrettyString(true));
+                quickSetupCallback?.Invoke(e);
                 MidiEventCallback?.Invoke(e);
             } catch (Exception ex) {
-                Console.WriteLine("Error on MIDI event callback: " + e);
+                Console.WriteLine("Error on MIDI event callback: " + ex);
             }
         }
         #endregion

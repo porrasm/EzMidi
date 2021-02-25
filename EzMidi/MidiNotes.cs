@@ -53,15 +53,15 @@ namespace EzMidi {
         }
 
         /// <summary>
-        /// Converts a string to a note
+        /// Converts a string to a note. Only the sharp (#) sign is allowed.
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
         public static byte StringToNote(string s) {
-            if (!new Regex(@"[A-G]#?-?\d").IsMatch(s)) {
+            s = s.ToLower();
+            if (!new Regex(@"[a-g]#?-?\d").IsMatch(s)) {
                 throw new Exception("Invalid note: (" + s + ") with length: " + s.Length);
             }
-            s = s.ToLower();
             int splitIndex = s[1] == '#' ? 2 : 1;
 
             int octave = int.Parse(s.Substring(splitIndex));
