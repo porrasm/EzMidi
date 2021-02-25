@@ -13,8 +13,19 @@ namespace EzMidi {
         #region fields
         private MidiListener.OnMidiEvent callback;
 
+        /// <summary>
+        /// Set of accepted command codes
+        /// </summary>
         public HashSet<MidiCommandCode> AcceptedCommandCodes { get; set; }
+
+        /// <summary>
+        /// Set of accepted control values
+        /// </summary>
         public HashSet<byte> AcceptedControlValues { get; set; }
+
+        /// <summary>
+        /// Bitfield of accepted MIDI channels
+        /// </summary>
         public ushort AcceptedMidiChannels { get; set; }
         #endregion
 

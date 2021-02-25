@@ -1,0 +1,335 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EzMidi</name>
+    </assembly>
+    <members>
+        <member name="T:EzMidi.MidiDevices">
+            <summary>
+            A wrapper class used to retrieve MIDI input devices
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiDevices.GetActiveMidiInputs">
+            <summary>
+            Returns a list of all active MIDI input devices
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiDevices.GetActiveMidiInputs(EzMidi.MidiListenerFilter)">
+            <summary>
+            Returns a list of all active MIDI input devices
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiDevices.GetDeviceByName(System.String,EzMidi.MidiInDevice@)">
+            <summary>
+            Collects a device with a matching name
+            </summary>
+            <param name="match"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiDevices.GetDeviceByNumber(System.Int32,EzMidi.MidiInDevice@)">
+            <summary>
+            Collects a device with a matching device number
+            </summary>
+            <param name="deviceNumber"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EzMidi.MidiEvent">
+            <summary>
+            Contains information about the received MIDI event
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEvent.Device">
+            <summary>
+            The device which sent the event
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEvent.StatusByte">
+            <summary>
+            The type of the event received and the channel it was received on. See <see cref="T:NAudio.Midi.MidiCommandCode"/>
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEvent.Control">
+            <summary>
+            The target control of this event. Has value between [0, 127] and corresponds to for example a note or a MIDI CC number.
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEvent.Value">
+            <summary>
+            The value which was received on the <see cref="P:EzMidi.MidiEvent.Control"/>. Corresponds to for example note velocity or MIDI CC value.
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEvent.CommandCode">
+            <summary>
+            The command code of this event
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEvent.MidiChannel">
+            <summary>
+            The channel this event was received on
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiEvent.#ctor(System.Int32,EzMidi.MidiInDevice)">
+            <summary>
+            Create a new <see cref="T:EzMidi.MidiEvent"/> instance from raw MIDI data
+            </summary>
+            <param name="rawData">The raw MIDI data</param>
+            <param name="device">The device which sent this event</param>
+        </member>
+        <member name="M:EzMidi.MidiEvent.ToPrettyString(System.Boolean)">
+            <summary>
+            Converts this MIDI event to a more readable form
+            </summary>
+            <param name="castControlToNote">If true the <see cref="P:EzMidi.MidiEvent.Control"/> is cast into a note using <see cref="M:EzMidi.MidiNotes.NoteToString(System.Int32)"/></param>
+            <returns></returns>
+        </member>
+        <member name="T:EzMidi.MidiEventFilter">
+            <summary>
+            A filter for <see cref="T:EzMidi.MidiEvent"/>s which can be used to accept matching events
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEventFilter.AcceptedCommandCodes">
+            <summary>
+            Set of accepted command codes
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEventFilter.AcceptedControlValues">
+            <summary>
+            Set of accepted control values
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiEventFilter.AcceptedMidiChannels">
+            <summary>
+            Bitfield of accepted MIDI channels
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiEventFilter.#ctor(EzMidi.MidiListener.OnMidiEvent)">
+            <summary>
+            Creates a new <see cref="T:EzMidi.MidiEventFilter"/> instance with no filter options
+            </summary>
+            <param name="callback"></param>
+        </member>
+        <member name="M:EzMidi.MidiEventFilter.IsMatch(EzMidi.MidiEvent)">
+            <summary>
+            Returns true if the filters of this instance match the incoming MIDI event
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiEventFilter.AllowCommandCode(NAudio.Midi.MidiCommandCode)">
+            <summary>
+            Adds a new <see cref="T:NAudio.Midi.MidiCommandCode"/> filter
+            </summary>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiEventFilter.AcceptControl(System.Byte)">
+            <summary>
+            Adds a new MIDI control code filter
+            </summary>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiEventFilter.SetMidiChannels(System.UInt16)">
+            <summary>
+            Sets the accepted MIDI channels. Set 0 to allow all.
+            </summary>
+            <param name="channels"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EzMidi.MidiInDevice">
+            <summary>
+            A wrapper class containing MIDI device information
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiInDevice.DeviceNumber">
+            <summary>
+            MIDI device index
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiInDevice.InputInfo">
+            <summary>
+            MIDI device info
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiInDevice.#ctor(System.Int32,NAudio.Midi.MidiInCapabilities)">
+            <summary>
+            Creates a new <see cref="T:EzMidi.MidiInDevice"/> instance
+            </summary>
+            <param name="deviceNumber"></param>
+            <param name="inputInfo"></param>
+        </member>
+        <member name="T:EzMidi.MidiInDeviceListener">
+            <summary>
+            A class used for listening to a single MIDI device. Do not use this class if you are using <see cref="T:EzMidi.MidiListener"/>
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiInDeviceListener.Device">
+            <summary>
+            The device assigned to this listener.
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiInDeviceListener.OnMidiInput">
+            <summary>
+            A callback which can be used to get MIDI events from this device
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiInDeviceListener.#ctor(EzMidi.MidiInDevice)">
+            <summary>
+            Creates a new <see cref="T:EzMidi.MidiInDeviceListener"/> listener instance
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:EzMidi.MidiInDeviceListener.Finalize">
+            <summary>
+            Stops the listening process before garbage collection
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiInDeviceListener.StartListening">
+            <summary>
+            Starts listening input on the specified MIDI device. Do not call if you are using <see cref="T:EzMidi.MidiListener"/>.
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiInDeviceListener.StopListening">
+            <summary>
+            Stops listening input on the specified MIDI device. Do not call if you are using <see cref="T:EzMidi.MidiListener"/>.
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiInDeviceListener.op_Implicit(EzMidi.MidiInDevice)~EzMidi.MidiInDeviceListener">
+            <summary>
+            Converts a <see cref="T:EzMidi.MidiInDevice"/> to a <see cref="T:EzMidi.MidiInDeviceListener"/> implicitly
+            </summary>
+            <param name="device"></param>
+        </member>
+        <member name="T:EzMidi.MidiListener">
+            <summary>
+            Static class used for listening to MIDI devices
+            </summary>
+        </member>
+        <member name="T:EzMidi.MidiListener.OnMidiEvent">
+            <summary>
+            A callback delegate for receiving MIDI events
+            </summary>
+            <param name="e">The received MIDI event</param>
+        </member>
+        <member name="P:EzMidi.MidiListener.IsListening">
+            <summary>
+            True if the listeners are active
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListener.MidiEventCallback">
+            <summary>
+            The MIDI event callback. Different delegate from the one that you can give as a parameter to <see cref="M:EzMidi.MidiListener.StartListening(EzMidi.MidiListenerSettings,EzMidi.MidiListener.OnMidiEvent)"/>
+            </summary>
+        </member>
+        <member name="F:EzMidi.MidiListener.quickSetupCallback">
+            <summary>
+            Alternate callback which can be given directly as a parameter.
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiListener.StartListening(EzMidi.MidiListenerSettings,EzMidi.MidiListener.OnMidiEvent)">
+            <summary>
+            Starts listening MIDI input on all of the devices. If <see cref="P:EzMidi.MidiListener.IsListening"/> is true, this does nothing.
+            </summary>
+            <param name="settings">The settings to use</param>
+            <param name="callback">The callback to use</param>
+        </member>
+        <member name="M:EzMidi.MidiListener.StopListening">
+            <summary>
+            Stops listening MIDI input
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiListener.UpdateAllDevices">
+            <summary>
+            Reloads all MIDI devices based on the given filter settings 
+            </summary>
+        </member>
+        <member name="T:EzMidi.MidiListenerFilter">
+            <summary>
+            Contains a collection of filters to use with <see cref="T:EzMidi.MidiListener"/>
+            </summary>
+        </member>
+        <member name="F:EzMidi.MidiListenerFilter.UseAll">
+            <summary>
+            Use all devices, ignoring all filter options
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerFilter.DeviceNameFilters">
+            <summary>
+            Use all devices with a matching name (device name and filter are lowercased and the deviceName.Contains(filter) is used)
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerFilter.DeviceIDFilters">
+            <summary>
+            Use all devics with matchign IDs
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerFilter.DeviceNumberFilters">
+            <summary>
+            Use all devices with matching device numbers
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerFilter.ManufactureFilters">
+            <summary>
+            Use all devices from matching manufacturers
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiListenerFilter.#ctor">
+            <summary>
+            Creates a new <see cref="T:EzMidi.MidiListenerFilter"/> instance with no filter options
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiListenerFilter.UseAllDevices">
+            <summary>
+            Creates a new <see cref="T:EzMidi.MidiListenerFilter"/> instance with <see cref="F:EzMidi.MidiListenerFilter.UseAll"/> set to true
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiListenerFilter.ResetFilters">
+            <summary>
+            Resets all filters
+            </summary>
+        </member>
+        <member name="T:EzMidi.MidiListenerSettings">
+            <summary>
+            A struct containing settings about the listener
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerSettings.UpdateLoopTimeout">
+            <summary>
+            How many milliseconds to wait before updating the device list. Set to 0 to disable automatic polling.
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerSettings.Filters">
+            <summary>
+            The MIDI device filter options
+            </summary>
+        </member>
+        <member name="P:EzMidi.MidiListenerSettings.Default">
+            <summary>
+            The default listener settings. Devices are updated every 30 seconds and all devices are used.
+            </summary>
+        </member>
+        <member name="T:EzMidi.MidiNotes">
+            <summary>
+            Helper class for transforming back and forth from strings to integers
+            </summary>
+        </member>
+        <member name="M:EzMidi.MidiNotes.NoteToString(System.Int32)">
+            <summary>
+            Converts a given note value in the range [0, 127] to a string
+            </summary>
+            <param name="note"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EzMidi.MidiNotes.StringToNote(System.String)">
+            <summary>
+            Converts a string to a note. Only the sharp (#) sign is allowed.
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

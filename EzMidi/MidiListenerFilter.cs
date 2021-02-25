@@ -52,6 +52,9 @@ namespace EzMidi {
             return filter;
         }
 
+        /// <summary>
+        /// Resets all filters
+        /// </summary>
         public void ResetFilters() {
             UseAll = false;
             DeviceNameFilters = new List<string>();

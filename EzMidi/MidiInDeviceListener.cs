@@ -7,7 +7,7 @@ using NAudio.Midi;
 
 namespace EzMidi {
     /// <summary>
-    /// A class used for listening to a single MIDI device
+    /// A class used for listening to a single MIDI device. Do not use this class if you are using <see cref="MidiListener"/>
     /// </summary>
     public class MidiInDeviceListener {
 
@@ -25,26 +25,33 @@ namespace EzMidi {
         public MidiListener.OnMidiEvent OnMidiInput { get; set; }
         #endregion
 
+        /// <summary>
+        /// Creates a new <see cref="MidiInDeviceListener"/> listener instance
+        /// </summary>
+        /// <param name="device"></param>
         public MidiInDeviceListener(MidiInDevice device) {
             this.Device = device;
             this.input = new MidiIn(device.DeviceNumber);
         }
+        /// <summary>
+        /// Stops the listening process before garbage collection
+        /// </summary>
         ~MidiInDeviceListener() {
             StopListening();
         }
 
         /// <summary>
-        /// Starts listening input on the specified MIDI device
+        /// Starts listening input on the specified MIDI device. Do not call if you are using <see cref="MidiListener"/>.
         /// </summary>
-        internal void StartListening() {
+        public void StartListening() {
             input.MessageReceived += OnMidiInputEvent;
             input.Start();
         }
 
         /// <summary>
-        /// Stops listening input on the specified MIDI device
+        /// Stops listening input on the specified MIDI device. Do not call if you are using <see cref="MidiListener"/>.
         /// </summary>
-        internal void StopListening() {
+        public void StopListening() {
             if (input != null) {
                 input.Stop();
             }
@@ -56,9 +63,9 @@ namespace EzMidi {
         }
 
         /// <summary>
-        /// Implicitly converts a <see cref=""MidiInput.MidiInDevice/> to a <see cref="MidiInDeviceListener"/>
+        /// Converts a <see cref="MidiInDevice"/> to a <see cref="MidiInDeviceListener"/> implicitly
         /// </summary>
-        /// <param name="device">The device info to use</param>
+        /// <param name="device"></param>
         public static implicit operator MidiInDeviceListener(MidiInDevice device) {
             return new MidiInDeviceListener(device);
         }

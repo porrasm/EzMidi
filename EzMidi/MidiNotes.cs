@@ -6,6 +6,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EzMidi {
+
+    /// <summary>
+    /// Helper class for transforming back and forth from strings to integers
+    /// </summary>
     public static class MidiNotes {
 
         /// <summary>

@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EzMidi {
+    /// <summary>
+    /// Static class used for listening to MIDI devices
+    /// </summary>
     public static class MidiListener {
 
         #region fields
@@ -106,7 +109,6 @@ namespace EzMidi {
         #region input 
         private static void OnMidiEventHandler(MidiEvent e) {
             try {
-                Console.WriteLine(e.ToPrettyString(true));
                 quickSetupCallback?.Invoke(e);
                 MidiEventCallback?.Invoke(e);
             } catch (Exception ex) {

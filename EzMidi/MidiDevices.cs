@@ -53,7 +53,6 @@ namespace EzMidi {
             match = match.ToLower();
 
             foreach (MidiInDevice d in GetActiveMidiInputs()) {
-                Console.WriteLine(d.InputInfo.ProductName);
                 if (d.InputInfo.ProductName.ToLower().Contains(match)) {
                     device = d;
                     return true;

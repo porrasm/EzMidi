@@ -7,6 +7,14 @@
     <Product>EzMidi</Product>
     <Description>Get MIDI event callbacks with a single line of code.</Description>
     <Copyright />
+    <PackageProjectUrl>https://github.com/porrasm/EzMidi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/porrasm/EzMidi</RepositoryUrl>
+    <PackageReleaseNotes>MIDI, NAudio, Automation</PackageReleaseNotes>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>P:\Stuff\Projects\EzMidi\EzMidi\EzMidi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

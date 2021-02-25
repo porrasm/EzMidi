@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using NAudio.Midi;
 
 namespace EzMidi {
+    /// <summary>
+    /// Contains information about the received MIDI event
+    /// </summary>
     public struct MidiEvent {
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace EzMidi {
         /// <summary>
         /// Converts this MIDI event to a more readable form
         /// </summary>
-        /// <param name="castControlToNote">If true the <see cref="Control"/> is cast into a note using <see cref="NoteToString(int)"/></param>
+        /// <param name="castControlToNote">If true the <see cref="Control"/> is cast into a note using <see cref="MidiNotes.NoteToString(int)"/></param>
         /// <returns></returns>
         public string ToPrettyString(bool castControlToNote = false) {
             string note = castControlToNote ? MidiNotes.NoteToString(Control) : "" + Control;
