@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/porrasm/EzMidi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/porrasm/EzMidi</RepositoryUrl>
     <PackageReleaseNotes>MIDI, NAudio, Automation</PackageReleaseNotes>
-    <Version>1.0.4</Version>
+    <Version>1.0.6</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

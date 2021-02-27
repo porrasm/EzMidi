@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EzMidi {
@@ -22,7 +20,10 @@ namespace EzMidi {
         /// </summary>
         public static bool IsListening { get; private set; }
 
-        private static List<MidiInDeviceListener> devicesToListen;
+        /// <summary>
+        /// The active list of devices
+        /// </summary>
+        public static List<MidiInDeviceListener> DevicesToListen { get; private set; }
 
         private static MidiListenerSettings settings;
         private static int runIndex;
@@ -39,52 +40,68 @@ namespace EzMidi {
         #endregion
 
         static MidiListener() {
-            devicesToListen = new List<MidiInDeviceListener>();
+            DevicesToListen = new List<MidiInDeviceListener>();
         }
 
         #region management
         /// <summary>
-        /// Starts listening MIDI input on all of the devices. If <see cref="IsListening"/> is true, this does nothing.
+        /// Starts listening MIDI input on all of the devices. If <see cref="IsListening"/> is true, this does nothing. Returns false if there was an error starting a MIDI listener.
         /// </summary>
         /// <param name="settings">The settings to use</param>
         /// <param name="callback">The callback to use</param>
-        public static void StartListening(MidiListenerSettings settings, OnMidiEvent callback = null) {
+        public static bool StartListening(MidiListenerSettings settings, OnMidiEvent callback = null) {
             if (IsListening) {
-                return;
+                return false;
             }
+
+            DevicesToListen.Clear();
             IsListening = true;
             MidiListener.settings = settings;
 
             quickSetupCallback = callback;
 
+            UpdateAllDevices();
             UpdateLoop(++runIndex);
 
-            foreach (MidiInDeviceListener device in devicesToListen) {
-                device.StartListening();
-                device.OnMidiInput += OnMidiEventHandler;
+            bool success = true;
+
+            foreach (MidiInDeviceListener device in DevicesToListen) {
+                if (device.StartListening()) {
+                    device.OnMidiInput += OnMidiEventHandler;
+                } else {
+                    success = false;
+                }
             }
+            return success;
         }
 
         /// <summary>
-        /// Stops listening MIDI input
+        /// Stops listening MIDI input. Returns false if there was a failure closing a MIDI device. If there was an error you can try to manually close to listeners using <see cref="DevicesToListen"/> list.
         /// </summary>
-        public static void StopListening() {
+        public static bool StopListening() {
             if (!IsListening) {
-                return;
+                return false;
             }
 
+            bool success = true;
+
             runIndex++;
-            foreach (MidiInDeviceListener device in devicesToListen) {
-                device.StopListening();
-                device.OnMidiInput -= OnMidiEventHandler;
+            foreach (MidiInDeviceListener device in DevicesToListen) {
+                if (device.StopListening()) {
+                    device.OnMidiInput -= OnMidiEventHandler;
+                } else {
+                    success = false;
+                }
             }
-            devicesToListen.Clear();
+
+            return success;
         }
 
         private static async void UpdateLoop(int currentIndex) {
             if (settings.UpdateLoopTimeout == 0) {
                 return;
             }
+            await Task.Delay((int)settings.UpdateLoopTimeout);
             while (currentIndex == runIndex) {
                 UpdateAllDevices();
                 await Task.Delay((int)settings.UpdateLoopTimeout);
@@ -95,13 +112,13 @@ namespace EzMidi {
         /// Reloads all MIDI devices based on the given filter settings 
         /// </summary>
         public static void UpdateAllDevices() {
-            foreach (MidiInDeviceListener device in devicesToListen) {
+            foreach (MidiInDeviceListener device in DevicesToListen) {
                 device.StopListening();
             }
-            devicesToListen.Clear();
+            DevicesToListen.Clear();
 
             foreach (MidiInDevice input in MidiDevices.GetActiveMidiInputs(settings.Filters)) {
-                devicesToListen.Add(input);
+                DevicesToListen.Add(input);
             }
         }
         #endregion

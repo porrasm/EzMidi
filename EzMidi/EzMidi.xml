@@ -9,32 +9,10 @@
             A wrapper class used to retrieve MIDI input devices
             </summary>
         </member>
-        <member name="M:EzMidi.MidiDevices.GetActiveMidiInputs">
-            <summary>
-            Returns a list of all active MIDI input devices
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:EzMidi.MidiDevices.GetActiveMidiInputs(EzMidi.MidiListenerFilter)">
             <summary>
             Returns a list of all active MIDI input devices
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:EzMidi.MidiDevices.GetDeviceByName(System.String,EzMidi.MidiInDevice@)">
-            <summary>
-            Collects a device with a matching name
-            </summary>
-            <param name="match"></param>
-            <param name="device"></param>
-            <returns></returns>
-        </member>
-        <member name="M:EzMidi.MidiDevices.GetDeviceByNumber(System.Int32,EzMidi.MidiInDevice@)">
-            <summary>
-            Collects a device with a matching device number
-            </summary>
-            <param name="deviceNumber"></param>
-            <param name="device"></param>
             <returns></returns>
         </member>
         <member name="T:EzMidi.MidiEvent">
@@ -220,6 +198,11 @@
             True if the listeners are active
             </summary>
         </member>
+        <member name="P:EzMidi.MidiListener.DevicesToListen">
+            <summary>
+            The active list of devices
+            </summary>
+        </member>
         <member name="P:EzMidi.MidiListener.MidiEventCallback">
             <summary>
             The MIDI event callback. Different delegate from the one that you can give as a parameter to <see cref="M:EzMidi.MidiListener.StartListening(EzMidi.MidiListenerSettings,EzMidi.MidiListener.OnMidiEvent)"/>
@@ -232,14 +215,14 @@
         </member>
         <member name="M:EzMidi.MidiListener.StartListening(EzMidi.MidiListenerSettings,EzMidi.MidiListener.OnMidiEvent)">
             <summary>
-            Starts listening MIDI input on all of the devices. If <see cref="P:EzMidi.MidiListener.IsListening"/> is true, this does nothing.
+            Starts listening MIDI input on all of the devices. If <see cref="P:EzMidi.MidiListener.IsListening"/> is true, this does nothing. Returns false if there was an error starting a MIDI listener.
             </summary>
             <param name="settings">The settings to use</param>
             <param name="callback">The callback to use</param>
         </member>
         <member name="M:EzMidi.MidiListener.StopListening">
             <summary>
-            Stops listening MIDI input
+            Stops listening MIDI input. Returns false if there was a failure closing a MIDI device. If there was an error you can try to manually close to listeners using <see cref="P:EzMidi.MidiListener.DevicesToListen"/> list.
             </summary>
         </member>
         <member name="M:EzMidi.MidiListener.UpdateAllDevices">
@@ -261,6 +244,12 @@
             <summary>
             Use all devices with a matching name (device name and filter are lowercased and the deviceName.Contains(filter) is used)
             </summary>
+        </member>
+        <member name="M:EzMidi.MidiListenerFilter.AddDeviceNameFilter(System.String)">
+            <summary>
+            Adds a device name filter to the list;
+            </summary>
+            <param name="name"></param>
         </member>
         <member name="P:EzMidi.MidiListenerFilter.DeviceIDFilters">
             <summary>

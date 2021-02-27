@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EzMidi {
     /// <summary>
@@ -18,7 +14,18 @@ namespace EzMidi {
         /// <summary>
         /// Use all devices with a matching name (device name and filter are lowercased and the deviceName.Contains(filter) is used)
         /// </summary>
-        public List<string> DeviceNameFilters { get; private set; }
+        internal List<string> DeviceNameFilters { get; set; }
+
+        /// <summary>
+        /// Adds a device name filter to the list;
+        /// </summary>
+        /// <param name="name"></param>
+        public void AddDeviceNameFilter(string name) {
+            if (name == null) {
+                return;
+            }
+            DeviceNameFilters.Add(name.ToLower());
+        }
 
         /// <summary>
         /// Use all devics with matchign IDs

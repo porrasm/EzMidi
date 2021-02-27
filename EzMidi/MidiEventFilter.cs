@@ -1,9 +1,5 @@
-﻿using System;
+﻿using NAudio.Midi;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NAudio.Midi;
 
 namespace EzMidi {
     /// <summary>

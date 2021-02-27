@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EzMidi {
+﻿namespace EzMidi {
     /// <summary>
     /// A struct containing settings about the listener
     /// </summary>

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NAudio.Midi;
+﻿using NAudio.Midi;
+using System;
 
 namespace EzMidi {
     /// <summary>
@@ -43,20 +39,33 @@ namespace EzMidi {
         /// <summary>
         /// Starts listening input on the specified MIDI device. Do not call if you are using <see cref="MidiListener"/>.
         /// </summary>
-        public void StartListening() {
-            input.MessageReceived += OnMidiInputEvent;
-            input.Start();
+        public bool StartListening() {
+            try {
+                input.MessageReceived += OnMidiInputEvent;
+                input.Start();
+                return true;
+            } catch (Exception e) {
+                Console.WriteLine("Error listening to MIDI device: " + e);
+                return false;
+            }
         }
 
         /// <summary>
         /// Stops listening input on the specified MIDI device. Do not call if you are using <see cref="MidiListener"/>.
         /// </summary>
-        public void StopListening() {
-            if (input != null) {
-                input.Stop();
-                input.Close();
-                input.Dispose();
+        public bool StopListening() {
+            try {
+                if (input != null) {
+                    input.Stop();
+                    input.Close();
+                    input.Dispose();
+                    return true;
+                }
+            } catch (Exception e) {
+                Console.WriteLine("Error closing MIDI device listener: " + e);
             }
+
+            return false;
         }
 
         private void OnMidiInputEvent(object sender, MidiInMessageEventArgs e) {
